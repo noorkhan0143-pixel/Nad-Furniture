@@ -16,6 +16,20 @@ const QUICK_PROMPTS = [
   'UAE delivery & quote',
 ];
 
+function getStaticFallbackReply(query: string): string {
+  const q = query.toLowerCase();
+  if (q.includes('bunk') || q.includes('bed')) {
+    return 'We manufacture heavy-duty 2-tier and 3-tier steel bunk beds (including 27 kg & 32 kg models) and single beds for labour camps and staff accommodations. Click "Request Bulk Quote" below or message +971 50 631 6560 on WhatsApp for wholesale pricing.';
+  }
+  if (q.includes('locker') || q.includes('wardrobe') || q.includes('cabinet')) {
+    return 'We supply 2-door, 3-door, 4-door, 6-door, 8-door, and 12-door steel lockers as well as 2-door and 3-door wooden wardrobes. Reach us at Info@nad.furniture or +971 50 631 6560 for bulk project rates.';
+  }
+  if (q.includes('office') || q.includes('desk') || q.includes('workstation')) {
+    return 'Our office furniture range includes executive tables, tables with drawers, L-shaped desks, and 4-person & 6-person modular workstations with UAE-wide delivery.';
+  }
+  return 'NAD Furniture UAE (Nazir Plaza Building, Ground Floor, Ajman) offers factory-direct wholesale furniture with Free UAE Delivery on orders above 5,000 AED. Contact Info@nad.furniture or WhatsApp +971 50 631 6560 for an instant quote.';
+}
+
 export const AiAssistantChat: React.FC<AiAssistantChatProps> = ({
   onOpenBulkQuote,
 }) => {
@@ -56,6 +70,18 @@ export const AiAssistantChat: React.FC<AiAssistantChatProps> = ({
         body: JSON.stringify({ messages: nextMessages }),
       });
 
+      const contentType = res.headers.get('content-type') || '';
+      if (!contentType.includes('application/json')) {
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: 'model',
+            text: getStaticFallbackReply(trimmed),
+          },
+        ]);
+        return;
+      }
+
       const data = (await res.json()) as { reply?: string; error?: string };
 
       if (!res.ok || !data.reply) {
@@ -65,7 +91,7 @@ export const AiAssistantChat: React.FC<AiAssistantChatProps> = ({
             role: 'model',
             text:
               data.error ||
-              'Sorry, I could not connect right now. You can reach us at Info@nad.furniture or +971 50 631 6560.',
+              getStaticFallbackReply(trimmed),
           },
         ]);
       } else {
@@ -76,7 +102,7 @@ export const AiAssistantChat: React.FC<AiAssistantChatProps> = ({
         ...prev,
         {
           role: 'model',
-          text: 'Network error. Please email Info@nad.furniture or message us on WhatsApp at +971 50 631 6560.',
+          text: getStaticFallbackReply(trimmed),
         },
       ]);
     } finally {
