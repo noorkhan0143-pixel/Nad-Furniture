@@ -1,0 +1,6 @@
+{
+  "name": "NAD Furniture UAE",
+  "description": "NAD Furniture is a UAE furniture supplier for offices, labour camps, staff accommodation, homes and commercial projects. Shop furniture or request a bulk quote.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

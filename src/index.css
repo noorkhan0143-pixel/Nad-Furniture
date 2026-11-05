@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-body: 'Outfit', sans-serif;
+    --font-heading: 'DM Serif Display', serif;
+  }
+
+  body {
+    font-family: var(--font-body);
+    color: #2D3748;
+    background-color: #ffffff;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    text-wrap: balance;
+  }
+}
+
+.subtle-dark-pattern {
+  background-color: #131313;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
