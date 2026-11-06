@@ -1,0 +1,16 @@
+[build]
+  # The app lives at the repository root (overrides the non-existent "project" base directory).
+  base = "."
+  # Install dependencies explicitly so vite is available even when no automatic install runs.
+  command = "npm install --include=dev && npm run build"
+  # Vite outputs the production build to dist/ (public/ holds static source assets).
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# Single-page app fallback
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
